@@ -24,19 +24,19 @@
 */
 
 
-const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const app = express();
-const port = 3000;
+const express = require('express'); // Import the express library
+const bodyParser = require('body-parser'); // Import the body-parser library
+const cors = require('cors'); // Import the cors library
+const app = express(); // Create an instance of the express application
+const port = 3000; // Set the port number for the server to listen on
 
-app.use(bodyParser.json());
-app.use(cors());
+app.use(bodyParser.json()); // Use the body-parser middleware to parse incoming JSON data
+app.use(cors()); // Use the cors middleware to enable cross-origin resource sharing
 
-app.get('/', (req, res) => {
-    res.send('Hello World!')
+app.get('/', (req, res) => { // Define a route for handling HTTP GET requests to the root URL
+    res.send('Hello World!'); // Send a response containing the string "Hello World!"
 });
 
-app.listen(port, () => {
-    console.log('Example app listening')
+app.listen(port, () => { // Start the server and listen for incoming requests on the specified port
+    console.log('Example app listening'); // Print a message to the console to indicate that the server is running
 });
