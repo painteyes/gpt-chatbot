@@ -1,6 +1,11 @@
-/* 
-  A react component that inputs a textarea message the performs a fetch request to localhost:3001 
-  gets back a response as a data.message and displays that message in a box below  
+/*  
+  This is a React component that renders a form with a textarea input for the user to type in a message. 
+  When the user submits the form, the component sends a POST request to a server running at localhost:3001, 
+  passing along the message as a JSON string in the request body. 
+  The server returns a JSON response with a "message" field, which is then displayed in a box below the form. 
+  The component uses the useState() hook to maintain the state of the message and response variables. 
+  The handleSubmit function is called when the form is submitted and uses the fetch() API to send the HTTP request. 
+  The message variable is updated with the value of the textarea input using the onChange event.
 */
 
 import React, {useState} from 'react';
