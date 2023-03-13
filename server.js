@@ -1,6 +1,8 @@
 /*
-    An Express server that handles incoming API requests and responds with a JSON object.
-    It uses "body-parser" to handle incoming data and "cors" to allow cross-origin requests.
+    This is an Express server that has been created to handle incoming API requests and respond with a JSON object. 
+    It uses the "body-parser" package to handle incoming data and the "cors" package to allow cross-origin requests. 
+    The server is built using Node.js, a JavaScript runtime based on the Google Chrome V8 engine that allows you to 
+    execute server-side JavaScript code.
 */
 
 /* 
@@ -40,3 +42,5 @@ app.get('/', (req, res) => { // Define a route for handling HTTP GET requests to
 app.listen(port, () => { // Start the server and listen for incoming requests on the specified port
     console.log('Example app listening'); // Print a message to the console to indicate that the server is running
 });
+
+
