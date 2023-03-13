@@ -8,22 +8,25 @@ import './App.css';
 
 function App() {
 
+  // Define the state variables for message and response using the useState() hook
   const [message, setMessage] = useState('');
-  const [response, setResponse] =useState('');
+  const [response, setResponse] = useState('');
 
+  // Function that gets called when the user submits the form
   const handleSubmit = (e) => {
     e.preventDefault();
+    // Send an HTTP request using fetch()
     fetch('http://localhost:3001/', {
-      method: 'POST',
-      headers: {
-        'Content-type': 'application/json',
-      },
-      body: JSON.stringify({message})
+    method: 'POST',
+    headers: {
+    'Content-type': 'application/json',
+    },
+    // Package the data as a JSON string in the request body
+    body: JSON.stringify({message})
     })
-    .then((res) => res.json())
-    .then((data) => setResponse(data.message))
+    .then((res) => res.json()) // Extract JSON content from the response
+    .then((data) => setResponse(data.message)) // Update response with the message field from the JSON content
   }
-
 
   return (
     <div className="App">
@@ -35,6 +38,7 @@ function App() {
       <div>{response}</div>
     </div>
   );
+
 }
 
 export default App;
