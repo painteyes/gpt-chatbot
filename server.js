@@ -25,22 +25,35 @@
     servers without security issues.   
 */
 
-
 const express = require('express'); // Import the express library
 const bodyParser = require('body-parser'); // Import the body-parser library
-const cors = require('cors'); // Import the cors library
+const cors = require('cors'); // Import the cors library-
+
 const app = express(); // Create an instance of the express application
-const port = 3000; // Set the port number for the server to listen on
+const port = 3001; // Set the port number for the server to listen on
 
 app.use(bodyParser.json()); // Use the body-parser middleware to parse incoming JSON data
 app.use(cors()); // Use the cors middleware to enable cross-origin resource sharing
 
-app.get('/', (req, res) => { // Define a route for handling HTTP GET requests to the root URL
-    res.send('Hello World!'); // Send a response containing the string "Hello World!"
+/*
+    The app.get() method is used to create a route for the HTTP GET request method. 
+    The string passed as the first argument to app.get() represents the URL path of the route.
+    The function passed as the second argument to app.get() is known as the route handler. 
+    This function takes two arguments, req and res.
+    - req stands for request and it contains information about the incoming HTTP request, 
+    such as the headers, parameters, and body of the request.
+    - res stands for response and it contains methods to send a response back to the client, 
+    such as res.send() to send a plain text response, or res.json() to send a JSON response.
+*/
+
+app.post('/', (req, res) => { // Define a route for handling HTTP GET requests to the root URL
+    res.json({
+        message: 'Hello World!'
+    })
 });
 
 app.listen(port, () => { // Start the server and listen for incoming requests on the specified port
-    console.log('Example app listening'); // Print a message to the console to indicate that the server is running
+    console.log('Server listening on port:', port); // Print a message to the console to indicate that the server is running
 });
 
 

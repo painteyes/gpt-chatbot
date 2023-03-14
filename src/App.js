@@ -22,12 +22,12 @@ function App() {
     e.preventDefault();
     // Send an HTTP request using fetch()
     fetch('http://localhost:3001/', {
-    method: 'POST',
-    headers: {
-    'Content-type': 'application/json',
-    },
-    // Package the data as a JSON string in the request body
-    body: JSON.stringify({message})
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      // Package the data as a JSON string in the request body
+      body: JSON.stringify({message})
     })
     .then((res) => res.json()) // Extract JSON content from the response
     .then((data) => setResponse(data.message)) // Update response with the message field from the JSON content
