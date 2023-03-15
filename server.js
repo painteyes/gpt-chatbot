@@ -25,10 +25,22 @@
     servers without security issues.   
 */
 
+// Import the 'openapi' module and extract the Configuration and OpenAIApi classes from it
+const OpenAI = require('openapi')
+const { Configuration, OpenAIApi } = OpenAI
+
+// Create a new Configuration object with the organization and API key values
+const configuration = new Configuration({
+    organization: "YOUR_ORG_ID",
+    apiKey: process.env.OPENAI_API_KEY,
+});
+
+// Create a new OpenAIApi object using the Configuration object created above
+const openai = new OpenAIApi(configuration);
+
 const express = require('express'); // Import the express library
 const bodyParser = require('body-parser'); // Import the body-parser library
 const cors = require('cors'); // Import the cors library-
-
 const app = express(); // Create an instance of the express application
 const port = 3001; // Set the port number for the server to listen on
 
@@ -46,7 +58,14 @@ app.use(cors()); // Use the cors middleware to enable cross-origin resource shar
     such as res.send() to send a plain text response, or res.json() to send a JSON response.
 */
 
-app.post('/', (req, res) => { // Define a route for handling HTTP GET requests to the root URL
+app.post('/', async (req, res) => { // Define a route for handling HTTP GET requests to the root URL
+    const response = await openai.createCompletion({
+        model: "text-davinci-003",
+        prompt: "Say this is a test",
+        max_tokens: 7,
+        temperature: 0,
+    })
+    console.log(response)
     res.json({
         message: 'Hello World!'
     })
