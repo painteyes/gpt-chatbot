@@ -30,7 +30,9 @@ function App() {
       body: JSON.stringify({message})
     })
     .then((res) => res.json()) // Extract JSON content from the response
-    .then((data) => setResponse(data.message)) // Update response with the message field from the JSON content
+    .then((data) => { // Update response with the message field from the JSON content
+      setResponse(data.message)
+    }) 
   }
 
   return (

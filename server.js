@@ -26,12 +26,12 @@
 */
 
 // Import the 'openapi' module and extract the Configuration and OpenAIApi classes from it
-const OpenAI = require('openapi')
+const OpenAI = require('openai')
 const { Configuration, OpenAIApi } = OpenAI
 
 // Create a new Configuration object with the organization and API key values
 const configuration = new Configuration({
-    organization: "YOUR_ORG_ID",
+    organization: "org-tA7y3eMqQFl9obw1prqIl0Tq",
     apiKey: process.env.OPENAI_API_KEY,
 });
 
@@ -40,7 +40,7 @@ const openai = new OpenAIApi(configuration);
 
 const express = require('express'); // Import the express library
 const bodyParser = require('body-parser'); // Import the body-parser library
-const cors = require('cors'); // Import the cors library-
+const cors = require('cors'); // Import the cors library
 const app = express(); // Create an instance of the express application
 const port = 3001; // Set the port number for the server to listen on
 
@@ -48,9 +48,9 @@ app.use(bodyParser.json()); // Use the body-parser middleware to parse incoming 
 app.use(cors()); // Use the cors middleware to enable cross-origin resource sharing
 
 /*
-    The app.get() method is used to create a route for the HTTP GET request method. 
-    The string passed as the first argument to app.get() represents the URL path of the route.
-    The function passed as the second argument to app.get() is known as the route handler. 
+    The app.get() / app.post() methods are used to create a route for the HTTP GET / POST request method. 
+    The string passed as the first argument to app.get() / app.post() represents the URL path of the route.
+    The function passed as the second argument to app.get() / app.post() is known as the route handler. 
     This function takes two arguments, req and res.
     - req stands for request and it contains information about the incoming HTTP request, 
     such as the headers, parameters, and body of the request.
@@ -58,17 +58,28 @@ app.use(cors()); // Use the cors middleware to enable cross-origin resource shar
     such as res.send() to send a plain text response, or res.json() to send a JSON response.
 */
 
+
 app.post('/', async (req, res) => { // Define a route for handling HTTP GET requests to the root URL
+    const  requestMessage = req.body.message; 
     const response = await openai.createCompletion({
         model: "text-davinci-003",
-        prompt: "Say this is a test",
-        max_tokens: 7,
-        temperature: 0,
+        prompt: ` 
+
+        Parse the "${requestMessage}" message to see if there are any grammatical errors
+        
+        If there are no grammatical errors, please do not write me anything about it
+        
+        If there are errors, please provide me with an "Analysis" and a "Correction" to suggest the correct way I should have written the parts I got wrong
+        
+        Provide a "Response" that is dialogical and in English to the content of this message: "${requestMessage}"
+        
+        `,
+        max_tokens: 3000,
+        temperature: 0.7,
     })
-    console.log(response)
-    res.json({
-        message: 'Hello World!'
-    })
+    if(responseMessage = response.data.choices[0].text) {
+        res.json({message: responseMessage})
+    }
 });
 
 app.listen(port, () => { // Start the server and listen for incoming requests on the specified port
