@@ -31,7 +31,8 @@ function App() {
     })
     .then((res) => res.json()) // Extract JSON content from the response
     .then((data) => { // Update response with the message field from the JSON content
-      setResponse(data.message)
+      setResponse(data.response)
+      console.log(response)
     }) 
   }
 
@@ -42,7 +43,10 @@ function App() {
         </textarea>
         <button type='submit'>Submit</button>
       </form>
-      <div>{response}</div>
+      {/* <div>Response: {response.message}</div>
+      <div>Analysis: {response.analysis}</div>
+      <div>Correction: {response.correction}</div> */}
+
     </div>
   );
 

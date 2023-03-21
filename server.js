@@ -29,6 +29,9 @@
 const OpenAI = require('openai')
 const { Configuration, OpenAIApi } = OpenAI
 
+// Loads environment variables from a .env file
+require('dotenv').config();
+
 // Create a new Configuration object with the organization and API key values
 const configuration = new Configuration({
     organization: "org-tA7y3eMqQFl9obw1prqIl0Tq",
@@ -60,30 +63,36 @@ app.use(cors()); // Use the cors middleware to enable cross-origin resource shar
 
 
 app.post('/', async (req, res) => { // Define a route for handling HTTP GET requests to the root URL
-    const  requestMessage = req.body.message; 
-    const response = await openai.createCompletion({
+    const inputMessage = await req.body.message;
+    const completion = await openai.createCompletion({
         model: "text-davinci-003",
-        prompt: ` 
+        prompt: `  
+            Provide an API response message to the input message "${inputMessage}".
 
-        Parse the "${requestMessage}" message to see if there are any grammatical errors
-        
-        If there are no grammatical errors, please do not write me anything about it
-        
-        If there are errors, please provide me with an "Analysis" and a "Correction" to suggest the correct way I should have written the parts I got wrong
-        
-        Provide a "Response" that is dialogical and in English to the content of this message: "${requestMessage}"
+            Analyze the response message for any grammatical errors.
+            If there are errors, provide the following output: <API response>|<correction suggestion>|<error explanation>
+            If there are no errors, provide the following output: <API response>|null|null
         
         `,
-        max_tokens: 3000,
-        temperature: 0.7,
-    })
-    if(responseMessage = response.data.choices[0].text) {
-        res.json({message: responseMessage})
-    }
+        max_tokens: 1024,
+        temperature: 0.4,
+        stop: "\n\n",
+    });
+
+    console.log(completion.data.choices[0].text)
+    const response = completion.data.choices[0].text.trim().split("|");
+    const message = response[0]?.trim() || "";
+    const analysis = response[1]?.trim() || "";
+    const correction = response[2]?.trim() || "";
+    const responseObject = {message, analysis, correction}
+    // res.json({response: responseObject})
 });
 
 app.listen(port, () => { // Start the server and listen for incoming requests on the specified port
     console.log('Server listening on port:', port); // Print a message to the console to indicate that the server is running
 });
+
+
+
 
 
