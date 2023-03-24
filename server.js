@@ -67,12 +67,10 @@ app.post('/', async (req, res) => { // Define a route for handling HTTP GET requ
     const completion = await openai.createCompletion({
         model: "text-davinci-003",
         prompt: `  
-            Provide an API response message to the input message "${inputMessage}".
-
-            Analyze the response message for any grammatical errors.
+            Provide an API response message to the "${inputMessage}" input message.
+            Analyze the "${inputMessage}" input message for any grammatical errors.
             If there are errors, provide the following output: <API response>|<correction suggestion>|<error explanation>
             If there are no errors, provide the following output: <API response>|null|null
-        
         `,
         max_tokens: 1024,
         temperature: 0.4,
